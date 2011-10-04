@@ -1,0 +1,18 @@
+--- procps-3.2.3/top.c~	2004-09-28 13:39:31.352488862 -0400
++++ procps-3.2.3/top.c	2004-09-28 13:42:47.659416849 -0400
+@@ -3201,12 +3201,15 @@
+ 
+ int main (int dont_care_argc, char *argv[])
+ {
++   struct stat isproc;
+    (void)dont_care_argc;
+    before(*argv);
+                                         //                 +-------------+
+    windows_stage1();                    //                 top (sic) slice
+    configs_read();                      //                 > spread etc, <
+    parse_args(&argv[1]);                //                 > lean stuff, <
++   if (stat("/proc/self", &isproc)==-1)
++      std_err("/proc is not mounted, required for output data");
+    whack_terminal();                    //                 > onions etc. <
+    windows_stage2();                    //                 as bottom slice
+                                         //                 +-------------+

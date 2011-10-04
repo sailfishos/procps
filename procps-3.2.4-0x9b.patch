@@ -1,0 +1,27 @@
+--- procps-3.2.4beta/proc/escape.c.0x9b	2004-10-23 19:44:28.000000000 +0200
++++ procps-3.2.4beta/proc/escape.c	2004-11-04 15:22:00.196344424 +0100
+@@ -79,6 +79,7 @@
+         // multibyte - printable
+         // Got space?
+         if (my_cells+wlen > *maxcells || my_bytes+1+len >= bufsize) break;
++#ifdef OUTPUT_PARANOID
+         // 0x9b is control byte for some terminals
+         if (memchr(src, 0x9B, len)) {
+ 	  // unsafe multibyte
+@@ -87,13 +88,16 @@
+ 	  my_cells++;
+ 	  my_bytes++;
+         } else {
++#endif
+ 	  // safe multibyte
+        	  memcpy(dst, src, len);
+ 	  my_cells += wlen;
+ 	  dst += len;
+ 	  my_bytes += len;
+           src += len;
++#ifdef OUTPUT_PARANOID
+         }
++#endif
+       }
+     }
+     //fprintf(stdout, "cells: %d\n", my_cells);

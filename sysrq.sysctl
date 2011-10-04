@@ -1,0 +1,3 @@
+# Controls the System Request debugging functionality of the kernel
+kernel.sysrq = 0
+

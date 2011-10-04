@@ -1,0 +1,53 @@
+--- procps-3.2.6/top.1.env-vmsize	2006-04-19 16:50:37.000000000 +0200
++++ procps-3.2.6/top.1	2006-04-19 16:59:23.000000000 +0200
+@@ -395,7 +395,8 @@
+ o:\fB VIRT\fR \*(EM Virtual Image (kb)
+ The total amount of \*(MV used by the task.
+ It includes all code, data and shared libraries plus pages that have been
+-swapped out.
++swapped out. (Note: you can define the STATSIZE=1 environment variable and the VIRT
++will be calculated from the /proc/#/state VmSize field.)
+ 
+ VIRT = SWAP + RES.
+ 
+--- procps-3.2.6/top.c.env-vmsize	2006-04-19 16:35:20.000000000 +0200
++++ procps-3.2.6/top.c	2006-04-19 16:50:25.000000000 +0200
+@@ -120,6 +120,8 @@
+            Loops = -1,          // number of iterations, -1 loops forever
+            Secure_mode = 0;     // set if some functionality restricted
+ 
++static int VIRT_vmsize = 0;	//use vm_size for VIRT 
++
+         /* Some cap's stuff to reduce runtime calls --
+            to accomodate 'Batch' mode, they begin life as empty strings */
+ static char  Cap_clr_eol    [CAPBUFSIZ],
+@@ -1667,6 +1669,9 @@
+       Fieldstab[P_PPD].fmts = pid_fmt;
+       Fieldstab[P_PPD].head = "       PPID" + 10 - pid_digits;
+    }
++   
++   if (( getenv("STATSIZE")) && ( atoi(getenv("STATSIZE")) == 1 )) 
++	   VIRT_vmsize = 1;
+ }
+ 
+ 
+@@ -2194,6 +2199,7 @@
+    }
+    if (!Frames_libflags) Frames_libflags = L_DEFAULT;
+    if (selection_type=='p') Frames_libflags |= PROC_PID;
++   if (VIRT_vmsize) Frames_libflags |= L_status;
+ }
+ 
+ 
+@@ -3157,7 +3163,10 @@
+             MKCOL(p->ruser);
+             break;
+          case P_VRT:
+-            MKCOL(scale_num(PAGES_TO_KB(p->size), w, s));
++ 	    if (VIRT_vmsize) 
++		    MKCOL(scale_num(PAGES_TO_KB(p->vm_size), w, s));
++ 	    else
++		    MKCOL(scale_num(PAGES_TO_KB(p->size), w, s));
+             break;
+          case P_WCH:
+             if (No_ksyms) {

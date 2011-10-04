@@ -1,0 +1,59 @@
+--- procps-3.2.6/ps/output.c~	2005-10-29 23:18:19.000000000 -0400
++++ procps-3.2.6/ps/output.c	2005-12-13 16:27:15.000000000 -0500
+@@ -1090,7 +1090,7 @@
+   return snprintf(outbuf, COLWID, "*");
+ }
+ 
+-
++#ifdef STATICLIB
+ /****************** FLASK & seLinux security stuff **********************/
+ // move the bulk of this to libproc sometime
+ 
+@@ -1122,7 +1122,7 @@
+   return 1;
+ }
+ 
+-#if 0
++#else
+ // This needs more study, considering:
+ // 1. the static linking option (maybe disable this in that case)
+ // 2. the -z and -Z option issue
+@@ -1134,7 +1134,7 @@
+   char *context;
+ 
+   if(!ps_getpidcon && !tried_load){
+-    void *handle = dlopen("libselinux.so.1", RTLD_NOW);
++    void *handle = dlopen("libselinux.so", RTLD_NOW);
+     if(handle){
+       dlerror();
+       ps_getpidcon = dlsym(handle, "getpidcon");
+--- procps-3.2.6/Makefile~	2005-10-30 01:27:04.000000000 -0500
++++ procps-3.2.6/Makefile	2005-12-13 16:32:09.000000000 -0500
+@@ -73,12 +73,12 @@
+ # Something like this is probably needed to make the SE Linux
+ # library loading not conflict with embedded systems stuff.
+ #
+-#ifeq ($(SHARED),1)
+-#ldl := -ldl
+-#LIBTYPE := -DSHAREDLIB
+-#else
+-#LIBTYPE := -DSTATICLIB
+-#endif
++ifeq ($(SHARED),1)
++ldl := -ldl
++LIBTYPE := -DSHAREDLIB
++else
++LIBTYPE := -DSTATICLIB
++endif
+ 
+ # Preprocessor flags.
+ PKG_CPPFLAGS := -D_GNU_SOURCE -I proc
+@@ -103,7 +103,7 @@
+ # Note that some stuff below is conditional on CFLAGS containing
+ # an option that starts with "-g". (-g, -g2, -g3, -ggdb, etc.)
+ CFLAGS       := -O2 -s
+-ALL_CFLAGS   := $(PKG_CFLAGS) $(CFLAGS)
++ALL_CFLAGS   := $(PKG_CFLAGS) $(CFLAGS) $(LIBTYPE)
+ 
+ PKG_LDFLAGS  := -Wl,-warn-common
+ LDFLAGS      :=

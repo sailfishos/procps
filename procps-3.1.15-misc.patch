@@ -1,0 +1,35 @@
+--- procps-3.2.2/watch.c.misc	2004-07-10 14:58:26.000000000 -0400
++++ procps-3.2.2/watch.c	2004-07-19 10:54:05.905274300 -0400
+@@ -24,6 +24,9 @@
+ #include <unistd.h>
+ #include <locale.h>
+ #include "proc/procps.h"
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <fcntl.h>
+ 
+ static struct option longopts[] = {
+ 	{"differences", optional_argument, 0, 'd'},
+@@ -93,6 +96,7 @@
+ main(int argc, char *argv[])
+ {
+ 	int optc;
++	int fd;
+ 	int option_differences = 0,
+ 	    option_differences_cumulative = 0,
+ 	    option_help = 0, option_version = 0;
+@@ -213,7 +217,13 @@
+ 			mvaddstr(0, width - tsl + 1, ts);
+ 			free(header);
+ 		}
+-
++		close(0);
++		fd=open("/dev/null",O_RDWR);
++		if (fd!=0) {
++		  perror("open");
++		  do_exit(2);
++		}
++		
+ 		if (!(p = popen(command, "r"))) {
+ 			perror("popen");
+ 			do_exit(2);
