@@ -1,3 +1,6 @@
+* Thu Oct 30 2014 Carsten Munk <carsten.munk@jolla.com> - 3.2.8
+- Prefix sysctl files with 00 in order to override better.
+
 * Sun May 22 2011 Auke Kok <auke-jan.h.kok@intel.com> - 3.2.8
 - Add 3 sysctl.d conf files for things that don't really belong in any
   specific module: ipv4 config, vm tunables and sysrq toggle. These

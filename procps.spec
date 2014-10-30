@@ -173,9 +173,9 @@ chmod -R u+w %{buildroot}/bin
 chmod -R u+w %{buildroot}/usr/bin
 chmod -R u+w %{buildroot}/lib*
 mkdir -p %{buildroot}/%{_sysconfdir}/sysctl.d
-install -m0644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/sysctl.d/ipv4.conf
-install -m0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysctl.d/sysrq.conf
-install -m0644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/sysctl.d/vm.conf
+install -m0644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/sysctl.d/00-ipv4.conf
+install -m0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysctl.d/00-sysrq.conf
+install -m0644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/sysctl.d/00-vm.conf
 
 %clean
 rm -rf %{buildroot}
