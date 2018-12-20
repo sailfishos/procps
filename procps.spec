@@ -114,6 +114,14 @@ virtual memory statistics about processes, memory, paging, block
 I/O, traps, and CPU activity. The pwdx command reports the current 
 working directory of a process or processes.
 
+%package doc
+Summary:  Documentation for %{name}
+Group:    Documentation
+Requires: %{name} = %{version}
+
+%description doc
+Man pages for %{name}.
+
 %prep
 %setup -q
 
@@ -177,6 +185,13 @@ install -m0644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/sysctl.d/00-ipv4.conf
 install -m0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysctl.d/00-sysrq.conf
 install -m0644 %{SOURCE4} %{buildroot}/%{_sysconfdir}/sysctl.d/00-vm.conf
 
+# move doc files to their directory
+install -m0644 AUTHORS %{buildroot}/%{_docdir}/procps-%{version}/
+install -m0644 NEWS    %{buildroot}/%{_docdir}/procps-%{version}/
+install -m0644 BUGS    %{buildroot}/%{_docdir}/procps-%{version}/
+install -m0644 TODO    %{buildroot}/%{_docdir}/procps-%{version}/
+install -m0644 README* %{buildroot}/%{_docdir}/procps-%{version}/
+
 %clean
 rm -rf %{buildroot}
 
@@ -186,7 +201,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(0644,root,root,755)
-%doc NEWS BUGS TODO FAQ
+%license COPYING COPYING.LIB
 %attr(755,root,root) /%{_lib}/*
 %attr(755,root,root) /bin/ps
 %attr(755,root,root) /sbin/sysctl
@@ -194,7 +209,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/sysctl.d
 %{_sysconfdir}/sysctl.d/*
 
-%doc %attr(0644,root,root) %{_mandir}/man1/*
-%doc %attr(0644,root,root) %{_mandir}/man8/*
-%doc %attr(0644,root,root) %{_mandir}/man5/*
-
+%files doc
+%attr(0644,root,root)
+%doc %{_docdir}/procps-%{version}/*
+%doc %{_mandir}/man1/*
+%doc %{_mandir}/man8/*
+%doc %{_mandir}/man5/*
