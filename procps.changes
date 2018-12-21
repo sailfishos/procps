@@ -1,3 +1,7 @@
+* Thu Dec 20 2018 Tomi Leppänen <tomi.leppanen@jolla.com> - 3.2.8-2
+- [packaging] Add procps-doc subpackage. Contributes to JB#24119
+- [packaging] Clean up old broken entries from changelog
+
 * Thu Oct 30 2014 Carsten Munk <carsten.munk@jolla.com> - 3.2.8
 - Prefix sysctl files with 00 in order to override better.
 
