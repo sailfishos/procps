@@ -211,7 +211,7 @@ rm -rf %{buildroot}
 
 %files doc
 %attr(0644,root,root)
-%doc %{_docdir}/procps-%{version}/*
+%doc %{_docdir}/procps-%{version}
 %doc %{_mandir}/man1/*
 %doc %{_mandir}/man8/*
 %doc %{_mandir}/man5/*
