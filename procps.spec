@@ -2,7 +2,7 @@
 Summary: System and process monitoring utilities
 Name: procps
 Version: 3.2.8
-Release: 1
+Release: 2
 License: GPLv2+ and LGPLv2+
 Group: Applications/System
 URL: http://procps.sourceforge.net
@@ -211,7 +211,7 @@ rm -rf %{buildroot}
 
 %files doc
 %attr(0644,root,root)
-%doc %{_docdir}/procps-%{version}/*
+%doc %{_docdir}/procps-%{version}
 %doc %{_mandir}/man1/*
 %doc %{_mandir}/man8/*
 %doc %{_mandir}/man5/*
