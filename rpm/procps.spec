@@ -91,11 +91,6 @@ install -m0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysctl.d/00-vm.conf
 install -m0644 -t %{buildroot}/%{_docdir}/%{name}-%{version}/ \
         AUTHORS NEWS README.md top/README.top
 
-# symlinks for backwards compatibility
-mkdir -m0755 %{buildroot}/bin %{buildroot}/sbin
-ln -sf ..%{_bindir}/ps %{buildroot}/bin/ps
-ln -sf ..%{_sbindir}/sysctl %{buildroot}/sbin/sysctl
-
 %find_lang %{name}-ng
 
 %check
@@ -111,8 +106,6 @@ make check
 %{_libdir}/lib%{name}.so.*
 %{_bindir}/*
 %{_sbindir}/sysctl
-/bin/ps
-/sbin/sysctl
 %config %{_sysconfdir}/sysctl.d
 
 %files devel
