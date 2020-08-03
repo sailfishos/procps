@@ -1,6 +1,6 @@
 Summary: System and process monitoring utilities
 Name: procps-ng
-Version: 3.3.15
+Version: 3.3.16
 Release: 1
 License: GPLv2+ and LGPLv2+
 URL: https://gitlab.com/procps-ng/procps
