@@ -1,6 +1,0 @@
-# delay writeback time
-vm.dirty_writeback_centisecs = 1500
-
-# reduce swappiness to enhance the response to interactive
-vm.swappiness = 30
-

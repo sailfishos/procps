@@ -1,13 +1,12 @@
 Summary: System and process monitoring utilities
-Name: procps
-Version: 3.3.15
+Name: procps-ng
+Version: 3.3.16
 Release: 1
 License: GPLv2+ and LGPLv2+
 URL: https://gitlab.com/procps-ng/procps
+Provides: procps = 3.3.15+git2
+Obsoletes: procps < 3.3.15+git2
 Source0: %{name}-%{version}.tar.gz
-Source1: ipv4.sysctl
-Source2: sysrq.sysctl
-Source3: vm.sysctl
 
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -43,6 +42,8 @@ working directory of a process or processes.
 %package devel
 Summary:  Development files for %{name}
 Requires: %{name} = %{version}-%{release}
+Provides: procps-devel = 3.3.15+git2
+Obsoletes: procps-devel < 3.3.15+git2
 
 %description devel
 %{summary}.
@@ -50,6 +51,8 @@ Requires: %{name} = %{version}-%{release}
 %package doc
 Summary:  Documentation for %{name}
 Requires: %{name} = %{version}-%{release}
+Provides: procps-doc = 3.3.15+git2
+Obsoletes: procps-doc < 3.3.15+git2
 
 %description doc
 Man pages for %{name}.
@@ -82,10 +85,6 @@ make CFLAGS="%{optflags}"
 %install
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
-mkdir -p %{buildroot}/%{_sysconfdir}/sysctl.d
-install -m0644 %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysctl.d/00-ipv4.conf
-install -m0644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/sysctl.d/00-sysrq.conf
-install -m0644 %{SOURCE3} %{buildroot}/%{_sysconfdir}/sysctl.d/00-vm.conf
 
 # copy doc files to their directory
 install -m0644 -t %{buildroot}/%{_docdir}/%{name}-%{version}/ \
@@ -96,7 +95,7 @@ mkdir -m0755 %{buildroot}/bin %{buildroot}/sbin
 ln -sf ..%{_bindir}/ps %{buildroot}/bin/ps
 ln -sf ..%{_sbindir}/sysctl %{buildroot}/sbin/sysctl
 
-%find_lang %{name}-ng
+%find_lang %{name}
 
 %check
 make check
@@ -105,22 +104,21 @@ make check
 
 %postun -p /sbin/ldconfig
 
-%files -f %{name}-ng.lang
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %license COPYING COPYING.LIB
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/libprocps.so.*
 %{_bindir}/*
 %{_sbindir}/sysctl
 /bin/ps
 /sbin/sysctl
-%config %{_sysconfdir}/sysctl.d
 
 %files devel
 %defattr(-,root,root,-)
-%{_libdir}/lib%{name}.so
-%{_libdir}/lib%{name}.la
+%{_libdir}/libprocps.so
+%{_libdir}/libprocps.la
 %{_includedir}/proc
-%{_libdir}/pkgconfig/lib%{name}.pc
+%{_libdir}/pkgconfig/libprocps.pc
 
 %files doc
 %defattr(-,root,root,-)
