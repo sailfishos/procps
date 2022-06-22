@@ -3,7 +3,7 @@ Name: procps-ng
 Version: 3.3.16
 Release: 1
 License: GPLv2+ and LGPLv2+
-URL: https://gitlab.com/procps-ng/procps
+URL: https://github.com/sailfishos/procps
 Provides: procps = 3.3.15+git2
 Obsoletes: procps < 3.3.15+git2
 Source0: %{name}-%{version}.tar.gz
