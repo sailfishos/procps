@@ -116,7 +116,6 @@ make check
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/libprocps.so
-%{_libdir}/libprocps.la
 %{_includedir}/proc
 %{_libdir}/pkgconfig/libprocps.pc
 
